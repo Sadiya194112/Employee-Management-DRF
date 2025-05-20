@@ -26,7 +26,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(
         verbose_name="email",
         max_length=255,
@@ -63,8 +63,8 @@ class Employee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="employers")
     company_name = models.CharField(max_length=255)
     contact_person_name = models.CharField(max_length=255)
-    email = models.EmailField()
-    phone_number = models.CharField(max_length=50)
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=50, unique=True)
     address = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
